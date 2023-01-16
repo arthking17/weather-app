@@ -1,0 +1,65 @@
+<div class="search">
+  <form #form="ngForm" (submit)="onSubmit()">
+    <input type="text" placeholder="Search city" name="city" [(ngModel)]="cityName">
+  </form>
+</div>
+
+<div class="container" *ngIf="weatherData">
+  <div class="upper-data">
+    <img src="../assets/Night-Sun-Sea.jpg" *ngIf="weatherData.current.temp_c > 15">
+    <img src="../assets/cold-night.jpg" *ngIf="weatherData.current.temp_c <= 15">
+
+    <div class="weather-data">
+      <div class="location">{{ weatherData.location.name }}</div>
+      <div class="temperature">{{ weatherData.current.temp_c | number: '1.0-0' }}°C</div>
+      <div class="location">{{ weatherData.current.condition.text }}</div>
+    </div>
+  </div>
+
+  <div class="lower-data">
+    <div class="more-info-label">
+      More information
+    </div> 
+    <div class="more-info-container">
+      <div class="info-block">
+        <div class="info-block-label">
+          <img src="{{ weatherData.current.condition.icon }}">
+          <span>Feeling</span>
+        </div>
+        <div class="info-block-value">
+          {{ weatherData.current.feelslike_c }}°C
+        </div>
+      </div>
+      <div class="info-block">
+        <div class="info-block-label">
+          <img src="../assets/precipitation.png">
+          <span>Precipitation</span>
+        </div>
+        <div class="info-block-value">
+          {{ weatherData.current.precip_mm }} mm
+        </div>
+      </div>
+      <div class="info-block">
+        <div class="info-block-label">
+          <img src="../assets/humidity.png">
+          <span>humidity</span>
+        </div>
+        <div class="info-block-value">
+          {{ weatherData.current.humidity }}%
+        </div>
+      </div>
+      <div class="info-block">
+        <div class="info-block-label">
+          <img src="../assets/wind.png">
+          <span>wind</span>
+        </div>
+        <div class="info-block-value">
+          {{ weatherData.current.wind_kph }} km/h
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<router-outlet></router-outlet>
