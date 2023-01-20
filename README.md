@@ -5,7 +5,7 @@ Display weather information by region🌧️☀️☔⛈️🌈
 
 ## Live app
 
-[go to weather-app](https://victorious-smoke-0902e9903.2.azurestaticapps.net/weatherApp/)
+[go to weather-app](https://weather-f8zvy6chi-arthking17.vercel.app/)
 
 ## Screenshot
 
