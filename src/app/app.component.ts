@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
   private getWeatherData(cityName: string) {
     this.weatherService.getWeatherData(cityName)
       .subscribe({
-        next: (response) => {
+        next: (response: any) => {
           this.weatherData = response
           console.log(response)
         }
@@ -44,6 +44,7 @@ export class AppComponent implements OnInit {
       this.latitude = position.coords.latitude;
       this.longitude = position.coords.longitude;
       this.getWeatherData(this.latitude + "," + this.longitude);
+      this.cityName = '';
     }
 
     const error = () => {

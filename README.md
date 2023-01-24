@@ -5,7 +5,7 @@ Display weather information by region🌧️☀️☔⛈️🌈
 
 ## Live app
 
-[go to weather-app](https://weather-app-nu-nine-98.vercel.app/)
+Found the link in about section on top right of the page
 
 ## Screenshot
 
