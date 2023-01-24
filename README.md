@@ -5,7 +5,7 @@ Display weather information by region🌧️☀️☔⛈️🌈
 
 ## Live app
 
-[go to weather-app](https://weather-f8zvy6chi-arthking17.vercel.app/)
+[go to weather-app](https://weather-app-nu-nine-98.vercel.app/)
 
 ## Screenshot
 
