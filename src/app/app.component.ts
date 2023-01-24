@@ -9,14 +9,15 @@ import { WeatherService } from './services/weather.service';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private weatherService: WeatherService){}
+  constructor(private weatherService: WeatherService) { }
 
   cityName: string = 'Tunis';
   weatherData?: WeatherData;
+  latitude: number = 0
+  longitude: number = 0
 
   ngOnInit(): void {
-      this.getWeatherData(this.cityName);
-      this.cityName = '';
+    this.setDefaultWeather()
   }
 
   title = 'weather-app';
@@ -34,5 +35,22 @@ export class AppComponent implements OnInit {
           console.log(response)
         }
       })
+  }
+
+  private setDefaultWeather() {
+
+    const success = (position: any) => {
+      console.log(position)
+      this.latitude = position.coords.latitude;
+      this.longitude = position.coords.longitude;
+      this.getWeatherData(this.latitude + "," + this.longitude);
+    }
+
+    const error = () => {
+      console.log(error)
+      this.getWeatherData(this.cityName);
+      this.cityName = '';
+    }
+    navigator.geolocation.getCurrentPosition(success, error);
   }
 }
