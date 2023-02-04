@@ -18,3 +18,14 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+
+## BUild and push the docker image
+```sh
+docker build -t wi11i4m/weather-app:1.0 .
+docker push wi11i4m/weather-app:1.0
+```
+
+## RUn the docker image
+```sh
+docker run --rm -d --name weather-app -p 4200:80 weather-app:1.0
+```

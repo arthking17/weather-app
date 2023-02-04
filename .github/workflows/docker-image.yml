@@ -15,4 +15,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag weather-app:$(date +%s)
+      run: docker build . --file Dockerfile --tag wi11i4m/weather-app:$(date +%s)
+    - name: Login to docker repo
+      run: docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+    - name: Push the Docker image
+      run: docker push wi11i4m/weather-app:$(date +%s)
