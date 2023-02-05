@@ -1,37 +1,27 @@
-name: Build and Push Docker Image
+name: Docker Image CI
 
 on:
   push:
-    branches:
-      - main
-      - arthking17-patch-1
-
+    branches: [ "main", "arthking17-patch-1" ]
+  pull_request:
+    branches: [ "main" ]
+    
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_IMAGE: ""
   DOCKER_TAG: ""
-
+  
 jobs:
-  build-and-push:
-    runs-on: ubuntu-latest
+
+  build:
+
+    runs-on: self-hosted
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      
-    - name: Set outputs
-      id: vars
-      run: echo "DOCKER_IMAGE=$(echo ${GITHUB_REPOSITORY} | cut -d '/' -f 2)" && echo "DOCKER_TAG=$(echo ${GITHUB_REF} | cut -d '/' -f 3)-$(echo "$GITHUB_SHA" | cut -c-4)"
-
-    - name: Build Docker Image
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        push: true
-        tags: "${{ env.DOCKER_TAG }}"
-      env:
-        DOCKER_REGISTRY: ${{ env.DOCKER_REGISTRY }}
-        DOCKER_IMAGE: ${{ env.DOCKER_IMAGE }}
-        DOCKER_TAG: ${{ env.DOCKER_TAG }}
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE }}:$(echo ${GITHUB_REF} | cut -d '/' -f 3)-$(echo "$GITHUB_SHA" | cut -c-4)
+    - name: Login to docker repo
+      run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+    - name: Push the Docker image
+      run: docker push ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE }}:$(echo ${GITHUB_REF} | cut -d '/' -f 3)-$(echo "$GITHUB_SHA" | cut -c-4)
