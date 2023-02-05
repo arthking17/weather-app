@@ -1,5 +1,7 @@
 # WeatherApp⛈️
 
+[![Docker Image CI](https://github.com/arthking17/weather-app/actions/workflows/docker-image.yml/badge.svg)](https://github.com/arthking17/weather-app/actions/workflows/docker-image.yml)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.1.
 Display weather information by region🌧️☀️☔⛈️🌈
 

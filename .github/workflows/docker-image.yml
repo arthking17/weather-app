@@ -1,22 +1,37 @@
-name: Docker Image CI
+name: Build and Push Docker Image
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
+      - arthking17-patch-1
+
+env:
+  DOCKER_REGISTRY: docker.io
+  DOCKER_IMAGE: "wi11i4m/weather-app"
+  DOCKER_TAG: ""
 
 jobs:
-
-  build:
-
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag wi11i4m/weather-app:$(date +%s)
-    - name: Login to docker repo
-      run: docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
-    - name: Push the Docker image
-      run: docker push wi11i4m/weather-app:$(date +%s)
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Set outputs
+      id: vars
+      run: echo "DOCKER_IMAGE=$(echo ${GITHUB_REPOSITORY} | cut -d '/' -f 2)" && echo "DOCKER_TAG=$(echo ${GITHUB_REF} | cut -d '/' -f 3)-$(echo "$GITHUB_SHA" | cut -c-4)"
+        
+    - name: Build and push Docker Image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: "${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE }}:${{ steps.vars.outputs.DOCKER_TAG }}"
+      env:
+        DOCKER_REGISTRY: ${{ env.DOCKER_REGISTRY }}
+        DOCKER_IMAGE: ${{ env.DOCKER_IMAGE }}
+        DOCKER_TAG: ${{ steps.vars.outputs.DOCKER_TAG }}
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
