@@ -26,9 +26,16 @@ jobs:
 
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag ${{ env.DOCKER_REGISTRY }}/${{ steps.vars.outputs.DOCKER_IMAGE }}:${{ steps.vars.outputs.DOCKER_TAG }}
+      env:
+        DOCKER_REGISTRY: ${{ env.DOCKER_REGISTRY }}
         
     - name: Login to docker repo
       run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       
     - name: Push the Docker image
       run: docker push ${{ env.DOCKER_REGISTRY }}/${{ steps.vars.outputs.DOCKER_IMAGE }}:${{ steps.vars.outputs.DOCKER_TAG }}
+      env:
+        DOCKER_REGISTRY: ${{ env.DOCKER_REGISTRY }}
