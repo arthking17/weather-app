@@ -8,7 +8,7 @@ on:
 
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_USERNAME }}
-  DOCKER_IMAGE: $(echo ${GITHUB_REPOSITORY#*/})
+  DOCKER_IMAGE: weather-app
   DOCKER_TAG: ${{ github.sha }}
 
 jobs:
