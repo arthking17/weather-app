@@ -25,18 +25,10 @@ jobs:
       run: echo "DOCKER_IMAGE=$(echo ${GITHUB_REPOSITORY} | cut -d '/' -f 2)" && echo "DOCKER_TAG=$(echo ${GITHUB_REF} | cut -d '/' -f 3)-$(echo "$GITHUB_SHA" | cut -c-4)"
 
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}
-      env:
-        DOCKER_REGISTRY: ${{ env.DOCKER_REGISTRY }}
-        DOCKER_IMAGE: ${{ env.DOCKER_IMAGE }}
-        DOCKER_TAG: ${{ env.DOCKER_TAG }}
+      run: docker build . --file Dockerfile --tag ${{ env.DOCKER_REGISTRY }}/${{ steps.vars.outputs.DOCKER_IMAGE }}:${{ steps.vars.outputs.DOCKER_TAG }}
         
     - name: Login to docker repo
       run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       
     - name: Push the Docker image
-      run: docker push ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}
-      env:
-        DOCKER_REGISTRY: ${{ env.DOCKER_REGISTRY }}
-        DOCKER_IMAGE: ${{ env.DOCKER_IMAGE }}
-        DOCKER_TAG: ${{ env.DOCKER_TAG }}
+      run: docker push ${{ env.DOCKER_REGISTRY }}/${{ steps.vars.outputs.DOCKER_IMAGE }}:${{ steps.vars.outputs.DOCKER_TAG }}
