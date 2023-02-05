@@ -1,0 +1,39 @@
+version: "3.3"
+services:
+  weather-app:
+    container_name: weather-app
+    image: "wi11i4m/weather-app:1.0"
+    #ports:
+    #  - "80:80"
+    environment:
+      VIRTUAL_HOST: weather-app.ddns.net
+      LETSENCRYPT_HOST: weather-app.ddns.net
+
+  nginx-proxy:
+    container_name: nginx-proxy
+    image: jwilder/nginx-proxy:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DHPARAM_GENERATION: "false" # disable auto param generation
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro # allow nginx to interact with docker
+      - ./etc/nginx/certs:/etc/nginx/certs # certificate
+      - ./etc/nginx/vhost.d:/etc/nginx/vhost.d # host
+      - nginx_proxy_html:/usr/share/nginx/html # store our web app
+
+  nginx-proxy-letencrypt:
+    container_name: nginx-proxy-letsencrypt
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro # allow nginx to interact with docker
+      - ./etc/nginx/certs:/etc/nginx/certs # certificate
+      - ./etc/nginx/vhost.d:/etc/nginx/vhost.d # host
+      - nginx_proxy_html:/usr/share/nginx/html # store our web app
+    environment:
+      DEFAULT_EMAIL: nguesseuarthur17@gmail.com
+      NGINX_PROXY_CONTAINER: nginx-proxy
+
+volumes:
+  nginx_proxy_html:
