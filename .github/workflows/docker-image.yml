@@ -9,7 +9,7 @@ on:
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_IMAGE: weather-app
-  DOCKER_TAG: ${{ github.ref }}-$(git rev-parse --short HEAD)
+  DOCKER_TAG: ${{ github.ref }}
 
 jobs:
   build-and-push:
