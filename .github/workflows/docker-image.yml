@@ -8,8 +8,8 @@ on:
 
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_USERNAME }}
-  DOCKER_IMAGE: weather-app
-  DOCKER_TAG: ""
+  DOCKER_IMAGE: split(${{ GITHUB_REPOSITORY }}, '/')[1]
+  DOCKER_TAG: ${{ GITHUB_HEAD_REF }}-${GITHUB_SHA:0:4}
 
 jobs:
   build-and-push:
@@ -18,10 +18,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-      
-    - name: Set outputs
-      id: vars
-      run: echo ${{ github.ref }}-${{ github.sha }} | sed -e 's/[^a-z0-9._-]/-/g' >> $GITHUB_OUTPUT
 
     - name: Build Docker Image
       uses: docker/build-push-action@v2
