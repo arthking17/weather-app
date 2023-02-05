@@ -9,7 +9,7 @@ on:
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_IMAGE: weather-app
-  DOCKER_TAG: ${{ github.ref }}
+  DOCKER_TAG: "$(echo ${{ github.ref }}-${{ github.sha }} | sed -e 's/[^a-z0-9._-]/-/g')"
 
 jobs:
   build-and-push:
