@@ -7,8 +7,8 @@ on:
       - arthking17-patch-1
 
 env:
-  DOCKER_REGISTRY: ${{ secrets.DOCKER_USERNAME }}
-  DOCKER_IMAGE: "weather-app"
+  DOCKER_REGISTRY: docker.io
+  DOCKER_IMAGE: "wi11i4m/weather-app"
   DOCKER_TAG: "workflow-test"
 
 jobs:
