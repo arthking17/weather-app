@@ -8,7 +8,7 @@ on:
 
 env:
   DOCKER_REGISTRY: docker.io
-  DOCKER_IMAGE: "${{ secrets.DOCKER_USERNAME }}/weather-app"
+  DOCKER_IMAGE: "weather-app"
   DOCKER_TAG: ""
 
 jobs:
