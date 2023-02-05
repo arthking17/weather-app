@@ -28,7 +28,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: "${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE }}:${{ steps.vars.outputs.sha_short }}"
+        tags: "${{ env.DOCKER_TAG }}"
       env:
         DOCKER_REGISTRY: ${{ env.DOCKER_REGISTRY }}
         DOCKER_IMAGE: ${{ env.DOCKER_IMAGE }}
