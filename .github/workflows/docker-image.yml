@@ -8,7 +8,7 @@ on:
 
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_USERNAME }}
-  DOCKER_IMAGE: split(${{ GITHUB_REPOSITORY }}, '/')[1]
+  DOCKER_IMAGE: $(echo ${GITHUB_REPOSITORY} | cut -d '/' -f 2)
   DOCKER_TAG: ${{ GITHUB_HEAD_REF }}-${GITHUB_SHA:0:4}
 
 jobs:
