@@ -22,7 +22,7 @@ jobs:
     
     - name: Set outputs
       id: vars
-      run: echo "DOCKER_IMAGE=$(echo ${GITHUB_REPOSITORY} | cut -d '/' -f 2)" && echo "DOCKER_TAG=$(echo ${GITHUB_REF} | cut -d '/' -f 3)-$(echo "$GITHUB_SHA" | cut -c-4)"
+      run: echo "env.DOCKER_IMAGE=$(echo ${GITHUB_REPOSITORY} | cut -d '/' -f 2)" && echo "env.DOCKER_TAG=$(echo ${GITHUB_REF} | cut -d '/' -f 3)-$(echo "$GITHUB_SHA" | cut -c-4)"
 
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}
