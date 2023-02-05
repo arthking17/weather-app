@@ -23,6 +23,13 @@ jobs:
       id: vars
       run: echo "DOCKER_IMAGE=$(echo ${GITHUB_REPOSITORY} | cut -d '/' -f 2)" && echo "DOCKER_TAG=$(echo ${GITHUB_REF} | cut -d '/' -f 3)-$(echo "$GITHUB_SHA" | cut -c-4)"
 
+    - name: Login to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        registry: ${{ env.DOCKER_REGISTRY }}
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        
     - name: Build Docker Image
       uses: docker/build-push-action@v2
       with:
