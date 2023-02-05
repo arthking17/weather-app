@@ -9,7 +9,7 @@ on:
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_IMAGE: $(echo ${GITHUB_REPOSITORY} | cut -d '/' -f 2)
-  DOCKER_TAG: ${{ GITHUB_HEAD_REF }}-$(echo "$GITHUB_SHA" | cut -c-4)
+  DOCKER_TAG: $(echo ${GITHUB_REF} | cut -d '/' -f 3)-$(echo "$GITHUB_SHA" | cut -c-4)
 
 jobs:
   build-and-push:
