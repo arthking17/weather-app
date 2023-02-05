@@ -18,6 +18,10 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+      
+    - name: Set outputs
+      id: vars
+      run: echo "image_name=$(echo ${GITHUB_REPOSITORY} | cut -d '/' -f 2)" >> $DOCKER_IMAGE && echo "docker_tag=$(echo ${GITHUB_REF} | cut -d '/' -f 3)-$(echo "$GITHUB_SHA" | cut -c-4)" >> $DOCKER_TAG
 
     - name: Build Docker Image
       uses: docker/build-push-action@v2
